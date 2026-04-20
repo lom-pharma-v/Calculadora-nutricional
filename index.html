@@ -13,347 +13,213 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --petrol: #0D6E8A;
-    --petrol-d: #0A5570;
-    --petrol-l: #E0F0F5;
-    --teal: #00B4A6;
-    --teal-l: #DDF5F3;
-    --verde: #22A06B;
-    --verde-l: #E3F7EE;
-    --naranja: #E07B2A;
-    --naranja-l: #FDF0E4;
-    --rojo: #C94040;
-    --rojo-l: #FAE8E8;
-    --lila: #5C4B8A;
-    --lila-l: #EDEBF5;
-    --bg: #F2F5F8;
-    --surface: #FFFFFF;
-    --text: #1A2332;
-    --text2: #6B7A92;
+    --petrol: #0D6E8A; --petrol-d: #0A5570; --petrol-l: #E0F0F5;
+    --verde: #22A06B; --verde-l: #E3F7EE;
+    --naranja: #E07B2A; --naranja-l: #FDF0E4;
+    --rojo: #C94040; --rojo-l: #FAE8E8;
+    --lila: #5C4B8A; --lila-l: #EDEBF5;
+    --bg: #F2F5F8; --surface: #FFFFFF;
+    --text: #1A2332; --text2: #6B7A92;
     --border: rgba(0,0,0,0.08);
-    --radius: 14px;
-    --radius-sm: 9px;
+    --radius: 14px; --radius-sm: 9px;
     --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; min-height: -webkit-fill-available; overscroll-behavior: none; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    overscroll-behavior: none;
-  }
+  .safe-top { height: env(safe-area-inset-top, 0px); background: var(--petrol); }
 
-  /* ── STATUS BAR SAFE AREA ── */
-  .safe-top {
-    height: env(safe-area-inset-top, 0px);
-    background: var(--petrol);
-  }
-
-  /* ── HEADER ── */
-  header {
-    background: var(--petrol);
-    padding: 1rem 1.25rem 1.5rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+  header { background: var(--petrol); padding: 1rem 1.25rem 1.5rem; position: sticky; top: 0; z-index: 100; }
   .header-inner { display: flex; align-items: flex-start; justify-content: space-between; }
   header h1 { font-size: 22px; font-weight: 600; color: white; letter-spacing: -0.02em; }
   header p { font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 2px; font-weight: 300; }
-  .imc-badge {
-    background: rgba(255,255,255,0.15);
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 12px;
-    color: white;
-    font-weight: 500;
-    font-family: 'DM Mono', monospace;
-    white-space: nowrap;
-    min-width: 80px;
-    text-align: center;
-  }
+  .imc-badge { background: rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 12px; font-size: 12px; color: white; font-weight: 500; font-family: 'DM Mono', monospace; white-space: nowrap; min-width: 80px; text-align: center; }
 
-  /* ── TABS ── */
-  .tabs {
-    background: var(--petrol-d);
-    display: flex;
-    padding: 0 1rem 0.75rem;
-    gap: 6px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
+  .tabs { background: var(--petrol-d); display: flex; padding: 0 1rem 0.75rem; gap: 6px; overflow-x: auto; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
-  .tab {
-    flex-shrink: 0;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.6);
-    cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid transparent;
-  }
-  .tab.active {
-    background: white;
-    color: var(--petrol);
-  }
+  .tab { flex-shrink: 0; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+  .tab.active { background: white; color: var(--petrol); }
 
-  /* ── MAIN CONTENT ── */
-  main {
-    padding: 1rem;
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
-    max-width: 520px;
-    margin: 0 auto;
-  }
-
+  main { padding: 1rem; padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); max-width: 520px; margin: 0 auto; }
   .panel { display: none; }
   .panel.active { display: block; }
 
-  /* ── CARD ── */
-  .card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    margin-bottom: 1rem;
-    overflow: hidden;
-  }
-  .card-title {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text2);
-    padding: 12px 16px 8px;
-    border-bottom: 1px solid var(--border);
-  }
+  .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 1rem; overflow: hidden; }
+  .card-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text2); padding: 12px 16px 8px; border-bottom: 1px solid var(--border); }
 
-  /* ── FIELD ── */
-  .field {
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    min-height: 52px;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
-  }
+  .field { display: flex; align-items: center; padding: 0 16px; min-height: 52px; border-bottom: 1px solid var(--border); gap: 12px; }
   .field:last-child { border-bottom: none; }
-  .field label {
-    font-size: 15px;
-    color: var(--text);
-    flex: 1;
-    min-width: 0;
-  }
+  .field label { font-size: 15px; color: var(--text); flex: 1; min-width: 0; }
   .field-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 
-  input[type="number"] {
-    width: 80px;
-    text-align: right;
-    font-family: 'DM Mono', monospace;
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--petrol);
-    background: var(--petrol-l);
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 6px 10px;
-    outline: none;
-    -moz-appearance: textfield;
-    appearance: textfield;
-    transition: background 0.15s;
-  }
+  input[type="number"] { width: 80px; text-align: right; font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--petrol); background: var(--petrol-l); border: none; border-radius: var(--radius-sm); padding: 6px 10px; outline: none; -moz-appearance: textfield; appearance: textfield; transition: background 0.15s; }
   input[type="number"]:focus { background: #C5E4EF; }
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
 
-  select {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--petrol);
-    background: var(--petrol-l);
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 6px 10px;
-    outline: none;
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230D6E8A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    padding-right: 28px;
-  }
-
+  select { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; color: var(--petrol); background: var(--petrol-l); border: none; border-radius: var(--radius-sm); padding: 6px 10px; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230D6E8A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; padding-right: 28px; }
   .unit { font-size: 13px; color: var(--text2); }
 
-  /* ── DERIVED ── */
-  .derived {
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    min-height: 48px;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
-  }
+  .derived { display: flex; align-items: center; padding: 0 16px; min-height: 48px; border-bottom: 1px solid var(--border); gap: 12px; }
   .derived:last-child { border-bottom: none; }
   .derived label { font-size: 14px; color: var(--text2); flex: 1; }
-  .derived .dval {
-    font-family: 'DM Mono', monospace;
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--text);
-  }
+  .derived .dval { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--text); }
   .derived .dunit { font-size: 12px; color: var(--text2); min-width: 36px; }
 
-  /* ── PESO PILLS ── */
-  .peso-row {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .peso-row label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 8px; }
-  .pills { display: flex; gap: 8px; }
-  .pill {
-    flex: 1;
-    text-align: center;
-    padding: 8px 4px;
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text2);
-    background: var(--bg);
-    cursor: pointer;
-    transition: all 0.18s;
-    border: 1.5px solid transparent;
-    user-select: none;
-  }
-  .pill small { display: block; font-size: 11px; font-weight: 400; margin-top: 2px; font-family: 'DM Mono', monospace; }
-  .pill.active {
-    background: var(--petrol-l);
-    color: var(--petrol);
-    border-color: var(--petrol);
-  }
+  /* ── SELECTOR PESO ── */
+  .peso-sel { display: flex; align-items: center; padding: 10px 16px; gap: 10px; background: var(--naranja-l); }
+  .peso-sel-info { flex: 1; min-width: 0; }
+  .peso-sel-label { font-size: 10px; color: var(--naranja); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+  .peso-sel-val { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 600; color: var(--naranja); margin-top: 1px; }
+  .peso-sel-tipo { font-size: 12px; color: var(--naranja); opacity: 0.8; }
+  .btn-cambiar { flex-shrink: 0; font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif; color: var(--naranja); background: white; border: 1.5px solid var(--naranja); border-radius: 20px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+  .btn-cambiar:active { background: var(--naranja); color: white; }
 
-  /* ── RESULT CARDS GRID ── */
-  .results-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-  }
-  .rc {
-    background: var(--surface);
-    padding: 14px 16px;
-  }
+  .peso-opts { display: none; border-top: 1px solid rgba(224,123,42,0.15); background: #FEF9F5; }
+  .peso-opts.open { display: flex; }
+  .peso-opt { flex: 1; text-align: center; padding: 10px 4px; font-size: 13px; font-weight: 500; color: var(--text2); cursor: pointer; border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; }
+  .peso-opt:last-child { border-right: none; }
+  .peso-opt small { display: block; font-size: 10px; font-weight: 400; margin-top: 2px; font-family: 'DM Mono', monospace; color: var(--text2); }
+  .peso-opt.active { background: var(--naranja-l); color: var(--naranja); font-weight: 600; }
+  .peso-opt.active small { color: var(--naranja); }
+
+  /* ── RESULTS GRID ── */
+  .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+  .rc { background: var(--surface); padding: 14px 16px; }
   .rc-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
-  .rc-val {
-    font-family: 'DM Mono', monospace;
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 1;
-  }
+  .rc-val { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; line-height: 1; }
   .rc-unit { font-size: 11px; color: var(--text2); margin-top: 3px; }
   .rc-petrol .rc-val { color: var(--petrol); }
   .rc-verde .rc-val { color: var(--verde); }
   .rc-naranja .rc-val { color: var(--naranja); }
   .rc-lila .rc-val { color: var(--lila); }
 
-  /* ── CRÍTICO BLOCKS ── */
-  .crit-block {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-  }
+  /* ── CRÍTICO ── */
+  .section-head { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; padding: 8px 16px 4px; color: white; }
+  .sh-naranja { background: var(--naranja); }
+  .sh-rojo { background: var(--rojo); }
+
+  .crit-block { padding: 14px 16px; border-bottom: 1px solid var(--border); }
   .crit-block:last-child { border-bottom: none; }
-  .crit-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 3px 10px;
-    border-radius: 20px;
-    margin-bottom: 8px;
-  }
+  .crit-badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
   .badge-naranja { background: var(--naranja-l); color: var(--naranja); }
   .badge-verde { background: var(--verde-l); color: var(--verde); }
   .badge-rojo { background: var(--rojo-l); color: var(--rojo); }
   .crit-desc { font-size: 13px; color: var(--text2); margin-bottom: 6px; }
-  .crit-range {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-  }
-  .crit-range .r-val {
-    font-family: 'DM Mono', monospace;
-    font-size: 26px;
-    font-weight: 500;
-  }
+  .crit-range { display: flex; align-items: baseline; gap: 4px; }
+  .crit-range .r-val { font-family: 'DM Mono', monospace; font-size: 26px; font-weight: 500; }
   .crit-range .r-sep { font-size: 16px; color: var(--text2); padding: 0 2px; }
   .crit-range .r-unit { font-size: 13px; color: var(--text2); margin-left: 4px; }
   .naranja-val { color: var(--naranja); }
   .verde-val { color: var(--verde); }
   .rojo-val { color: var(--rojo); }
 
-  /* ── NA STATE ── */
-  .na { color: var(--border); font-size: 22px; font-family: 'DM Mono', monospace; }
-  .na-sm { color: var(--border); font-size: 26px; font-family: 'DM Mono', monospace; }
+  .neto-block { display: none; margin-top: 10px; padding: 8px 12px; border-radius: var(--radius-sm); background: var(--rojo-l); border: 1px solid rgba(201,64,64,0.2); }
+  .neto-block.open { display: block; }
+  .neto-label { font-size: 10px; color: var(--rojo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+  .neto-range { display: flex; align-items: baseline; gap: 4px; }
+  .neto-range .r-val { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; color: var(--rojo); }
+  .neto-range .r-sep { font-size: 13px; color: var(--rojo); padding: 0 2px; }
+  .neto-range .r-unit { font-size: 11px; color: var(--rojo); opacity: 0.75; margin-left: 4px; }
+
+  /* ── FÁRMACOS TOGGLE ── */
+  .drug-row { display: flex; align-items: center; padding: 12px 16px; gap: 10px; min-height: 52px; border-bottom: 1px solid var(--border); }
+  .drug-label { font-size: 15px; color: var(--text); flex: 1; }
+  .drug-label small { display: block; font-size: 11px; color: var(--text2); margin-top: 1px; }
+  .toggle { position: relative; width: 44px; height: 26px; flex-shrink: 0; }
+  .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .toggle-slider { position: absolute; inset: 0; background: rgba(0,0,0,0.15); border-radius: 13px; cursor: pointer; transition: background 0.2s; }
+  .toggle-slider::before { content: ''; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .toggle input:checked + .toggle-slider { background: var(--rojo); }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+  .drug-detail { display: none; background: var(--rojo-l); border-bottom: 1px solid rgba(201,64,64,0.15); padding: 10px 16px 12px; }
+  .drug-detail.open { display: block; }
+  .drug-dose-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .drug-dose-row label { font-size: 13px; color: var(--rojo); flex: 1; }
+  .drug-dose-row input[type="number"] { width: 80px; background: white; color: var(--rojo); }
+  .drug-dose-row input[type="number"]:focus { background: #fce8e8; }
+  .drug-dose-note { font-size: 11px; color: var(--rojo); opacity: 0.7; font-style: italic; margin-top: 4px; }
+  .drug-mlh-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(201,64,64,0.2); }
+  .drug-mlh-row label { font-size: 13px; color: var(--rojo); font-weight: 500; flex: 1; }
+  .drug-mlh-val { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--rojo); font-weight: 600; }
+
+  /* ── LÍPIDOS RESULTADO ── */
+  .lipid-result { display: none; background: var(--rojo-l); padding: 12px 16px; border-top: 1px solid rgba(201,64,64,0.2); }
+  .lipid-result.open { display: block; }
+  .lipid-item { display: flex; align-items: center; gap: 8px; padding: 3px 0; }
+  .lipid-item-label { font-size: 12px; color: var(--text2); flex: 1; }
+  .lipid-item-val { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; color: var(--rojo); }
+  .lipid-item-unit { font-size: 11px; color: var(--text2); }
+  .lipid-total { display: flex; align-items: center; gap: 8px; padding: 8px 0 2px; margin-top: 6px; border-top: 1px solid rgba(201,64,64,0.25); }
+  .lipid-total-label { font-size: 14px; font-weight: 600; color: var(--rojo); flex: 1; }
+  .lipid-total-val { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 600; color: var(--rojo); }
+  .lipid-total-unit { font-size: 12px; font-weight: 600; color: var(--rojo); }
 
   /* ── RESUMEN ── */
-  .resumen-row {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
-  }
+  .resumen-row { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); gap: 12px; }
   .resumen-row:last-child { border-bottom: none; }
   .rr-label { font-size: 14px; color: var(--text2); flex: 1; line-height: 1.3; }
-  .rr-val {
-    font-family: 'DM Mono', monospace;
-    font-size: 17px;
-    font-weight: 500;
-    text-align: right;
-  }
+  .rr-val { font-family: 'DM Mono', monospace; font-size: 17px; font-weight: 500; text-align: right; }
   .rr-unit { font-size: 12px; color: var(--text2); min-width: 52px; text-align: right; }
-  .rr-range { font-size: 13px; color: var(--text2); text-align: right; }
 
-  .section-head {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 8px 16px 4px;
-    color: white;
-  }
-  .sh-verde { background: var(--verde); }
-  .sh-naranja { background: var(--naranja); }
-  .sh-rojo { background: var(--rojo); }
+  .nit-factor { font-size: 10px; color: var(--text2); font-weight: 400; font-family: 'DM Sans', sans-serif; margin-left: 3px; }
 
-  .footer-note {
-    text-align: center;
-    font-size: 11px;
-    color: var(--text2);
-    padding: 1rem;
-    line-height: 1.6;
+  /* ── KCAL INLINE POR FÁRMACO ── */
+  .drug-kcal-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 7px 10px;
+    background: rgba(201,64,64,0.10);
+    border-radius: var(--radius-sm);
   }
+  .drug-kcal-label { font-size: 12px; color: var(--rojo); flex: 1; font-style: italic; opacity: 0.85; }
+  .drug-kcal-val { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 600; color: var(--rojo); }
+  .drug-kcal-unit { font-size: 11px; color: var(--rojo); opacity: 0.75; }
+
+  /* ── TOTAL LÍPIDOS ── */
+  .lipid-total-block {
+    display: none;
+    border-top: 2px solid var(--rojo);
+    background: var(--rojo);
+  }
+  .lipid-total-block.open { display: block; }
+  .lipid-total-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px 10px;
+  }
+  .lipid-total-title { font-size: 13px; font-weight: 600; color: white; flex: 1; }
+  .lipid-total-big { font-family: 'DM Mono', monospace; font-size: 24px; font-weight: 600; color: white; }
+  .lipid-total-bigunit { font-size: 12px; color: rgba(255,255,255,0.75); }
+  .lipid-total-detail {
+    background: var(--rojo-l);
+    padding: 8px 16px 10px;
+  }
+  .lipid-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(201,64,64,0.12);
+  }
+  .lipid-detail-item:last-child { border-bottom: none; }
+  .lipid-detail-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .lipid-detail-label { font-size: 12px; color: var(--text2); flex: 1; }
+  .lipid-detail-val { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; color: var(--rojo); }
+  .lipid-detail-unit { font-size: 11px; color: var(--text2); }
+
+  .footer-note { text-align: center; font-size: 11px; color: var(--text2); padding: 1rem; line-height: 1.6; }
 </style>
 </head>
 <body>
 
 <div class="safe-top"></div>
-
 <header>
   <div class="header-inner">
-    <div>
-      <h1>NutriCalc</h1>
-      <p>Calculadora Nutricional Clínica</p>
-    </div>
+    <div><h1>NutriCalc</h1><p>Calculadora Nutricional Clínica</p></div>
     <div class="imc-badge" id="hdr-imc">IMC —</div>
   </div>
 </header>
@@ -367,374 +233,571 @@
 
 <main>
 
-  <!-- ══ PANEL: DATOS ══ -->
-  <div class="panel active" id="panel-datos">
-
-    <div class="card">
-      <div class="card-title">Datos antropométricos</div>
-      <div class="field">
-        <label>Peso real</label>
-        <div class="field-right">
-          <input type="number" id="peso" placeholder="—" min="0" max="300" step="0.1">
-          <span class="unit">kg</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Talla</label>
-        <div class="field-right">
-          <input type="number" id="talla" placeholder="—" min="0" max="250" step="1">
-          <span class="unit">cm</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Edad</label>
-        <div class="field-right">
-          <input type="number" id="edad" placeholder="—" min="0" max="120" step="1">
-          <span class="unit">años</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Sexo</label>
-        <div class="field-right">
-          <select id="sexo">
-            <option value="H">Hombre</option>
-            <option value="M">Mujer</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Factores</div>
-      <div class="field">
-        <label>Factor estrés calórico</label>
-        <div class="field-right">
-          <input type="number" id="fCal" value="1.3" min="1" max="2" step="0.05" style="width:70px">
-        </div>
-      </div>
-      <div class="field">
-        <label>Factor proteico</label>
-        <div class="field-right">
-          <input type="number" id="fProt" value="1.2" min="1" max="2" step="0.05" style="width:70px">
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Pesos e IMC</div>
-      <div class="derived">
-        <label>IMC</label>
-        <span class="dval" id="d-imc">—</span>
-        <span class="dunit">kg/m²</span>
-      </div>
-      <div class="derived">
-        <label>Peso ideal (Devine)</label>
-        <span class="dval" id="d-pideal">—</span>
-        <span class="dunit">kg</span>
-      </div>
-      <div class="derived">
-        <label>Peso ajustado (IMC ≥ 30)</label>
-        <span class="dval" id="d-pajust">—</span>
-        <span class="dunit">kg</span>
-      </div>
-      <div class="peso-row">
-        <label>Peso a utilizar en cálculos</label>
-        <div class="pills">
-          <div class="pill active" data-tipo="real">
-            Real
-            <small id="pill-real">—</small>
-          </div>
-          <div class="pill" data-tipo="ideal">
-            Ideal
-            <small id="pill-ideal">—</small>
-          </div>
-          <div class="pill" data-tipo="ajustado">
-            Ajustado
-            <small id="pill-ajust">—</small>
-          </div>
-        </div>
-      </div>
-      <div class="derived" style="background:#FDF6E8;">
-        <label style="font-weight:500;color:#E07B2A">Peso utilizado</label>
-        <span class="dval" id="d-puso" style="color:#E07B2A">—</span>
-        <span class="dunit">kg</span>
-      </div>
-    </div>
-
+<!-- ══ PACIENTE ══ -->
+<div class="panel active" id="panel-datos">
+  <div class="card">
+    <div class="card-title">Datos antropométricos</div>
+    <div class="field"><label>Peso real</label><div class="field-right"><input type="number" id="peso" placeholder="—" min="0" max="300" step="0.1"><span class="unit">kg</span></div></div>
+    <div class="field"><label>Talla</label><div class="field-right"><input type="number" id="talla" placeholder="—" min="0" max="250" step="1"><span class="unit">cm</span></div></div>
+    <div class="field"><label>Edad</label><div class="field-right"><input type="number" id="edad" placeholder="—" min="0" max="120" step="1"><span class="unit">años</span></div></div>
+    <div class="field"><label>Sexo</label><div class="field-right"><select id="sexo"><option value="H">Hombre</option><option value="M">Mujer</option></select></div></div>
   </div>
+  <div class="card">
+    <div class="card-title">Factores</div>
+    <div class="field"><label>Factor estrés calórico</label><div class="field-right"><input type="number" id="fCal" value="1.3" min="1" max="2" step="0.05" style="width:70px"></div></div>
+    <div class="field"><label>Factor proteico</label><div class="field-right"><input type="number" id="fProt" value="1.5" min="0.5" max="3" step="0.05" style="width:70px"></div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Pesos e IMC</div>
+    <div class="derived"><label>IMC</label><span class="dval" id="d-imc">—</span><span class="dunit">kg/m²</span></div>
+    <div class="derived"><label>Peso ideal (Devine)</label><span class="dval" id="d-pideal">—</span><span class="dunit">kg</span></div>
+    <div class="derived"><label>Peso ajustado</label><span class="dval" id="d-pajust">—</span><span class="dunit">kg</span></div>
+  </div>
+</div>
 
-  <!-- ══ PANEL: HOSPITALIZACIÓN ══ -->
-  <div class="panel" id="panel-hosp">
-    <div class="card">
-      <div class="card-title">Harris-Benedict</div>
-      <div class="results-grid">
-        <div class="rc rc-petrol">
-          <div class="rc-label">GEB</div>
-          <div class="rc-val" id="r-geb">—</div>
-          <div class="rc-unit">Kcal/día</div>
-        </div>
-        <div class="rc rc-verde">
-          <div class="rc-label">GET</div>
-          <div class="rc-val" id="r-get">—</div>
-          <div class="rc-unit">Kcal/día</div>
-        </div>
-        <div class="rc rc-naranja">
-          <div class="rc-label">Proteínas</div>
-          <div class="rc-val" id="r-prot-h">—</div>
-          <div class="rc-unit">g/día</div>
-        </div>
-        <div class="rc rc-lila">
-          <div class="rc-label">Nitrógeno</div>
-          <div class="rc-val" id="r-nit-h">—</div>
-          <div class="rc-unit">g N/día</div>
-        </div>
+<!-- ══ HOSPITALIZACIÓN ══ -->
+<div class="panel" id="panel-hosp">
+  <div class="card">
+    <div class="card-title">Peso para cálculos</div>
+    <div class="peso-sel">
+      <div class="peso-sel-info">
+        <div class="peso-sel-label">Peso utilizado</div>
+        <div class="peso-sel-val" id="h-puso-val">—</div>
+        <div class="peso-sel-tipo" id="h-puso-tipo">—</div>
       </div>
+      <button class="btn-cambiar" onclick="toggleOpts('h')">Cambiar ▾</button>
     </div>
-    <div class="footer-note">
-      GEB según Harris-Benedict (1919)<br>
-      GET = GEB × Factor estrés calórico
+    <div class="peso-opts" id="opts-h">
+      <div class="peso-opt active" data-p="h" data-t="auto" onclick="setPeso('h','auto')">Auto<small id="h-o-auto">—</small></div>
+      <div class="peso-opt" data-p="h" data-t="real" onclick="setPeso('h','real')">Real<small id="h-o-real">—</small></div>
+      <div class="peso-opt" data-p="h" data-t="ideal" onclick="setPeso('h','ideal')">Ideal<small id="h-o-ideal">—</small></div>
+      <div class="peso-opt" data-p="h" data-t="ajustado" onclick="setPeso('h','ajustado')">Ajust.<small id="h-o-ajust">—</small></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Harris-Benedict</div>
+    <div class="results-grid">
+      <div class="rc rc-petrol"><div class="rc-label">GEB</div><div class="rc-val" id="r-geb">—</div><div class="rc-unit">Kcal/día</div></div>
+      <div class="rc rc-verde"><div class="rc-label">GET</div><div class="rc-val" id="r-get">—</div><div class="rc-unit">Kcal/día</div></div>
+      <div class="rc rc-naranja"><div class="rc-label">Proteínas</div><div class="rc-val" id="r-prot-h">—</div><div class="rc-unit">g/día</div></div>
+      <div class="rc rc-lila"><div class="rc-label">Nitrógeno</div><div class="rc-val" id="r-nit-h">—</div><div class="rc-unit">g N/día <span class="nit-factor" id="r-nit-h-f"></span></div></div>
+    </div>
+  </div>
+  <div class="footer-note">GEB según Harris-Benedict (1919) · GET = GEB × Factor estrés calórico</div>
+</div>
+
+<!-- ══ CRÍTICO ══ -->
+<div class="panel" id="panel-critico">
+
+  <!-- Peso calorías -->
+  <div class="card" id="card-peso-cal">
+    <div class="card-title">Peso para cálculo calórico</div>
+    <div class="peso-sel">
+      <div class="peso-sel-info">
+        <div class="peso-sel-label">Peso calorías</div>
+        <div class="peso-sel-val" id="cc-puso-val">—</div>
+        <div class="peso-sel-tipo" id="cc-puso-tipo">—</div>
+      </div>
+      <button class="btn-cambiar" onclick="toggleOpts('cc')">Cambiar ▾</button>
+    </div>
+    <div class="peso-opts" id="opts-cc">
+      <div class="peso-opt active" data-p="cc" data-t="auto" onclick="setPeso('cc','auto')">Auto<small id="cc-o-auto">—</small></div>
+      <div class="peso-opt" data-p="cc" data-t="real" onclick="setPeso('cc','real')">Real<small id="cc-o-real">—</small></div>
+      <div class="peso-opt" data-p="cc" data-t="ideal" onclick="setPeso('cc','ideal')">Ideal<small id="cc-o-ideal">—</small></div>
+      <div class="peso-opt" data-p="cc" data-t="ajustado" onclick="setPeso('cc','ajustado')">Ajust.<small id="cc-o-ajust">—</small></div>
     </div>
   </div>
 
-  <!-- ══ PANEL: CRÍTICO ══ -->
-  <div class="panel" id="panel-critico">
-    <div class="card">
-      <div class="section-head sh-naranja">IMC &lt; 30</div>
-      <div class="crit-block">
-        <div class="crit-badge badge-naranja">Fase estrés</div>
-        <div class="crit-desc">10 – 20 Kcal/kg</div>
-        <div class="crit-range">
-          <span class="r-val naranja-val" id="c-estres-min">—</span>
-          <span class="r-sep">–</span>
-          <span class="r-val naranja-val" id="c-estres-max">—</span>
-          <span class="r-unit">Kcal/día</span>
-        </div>
+  <!-- IMC < 30 -->
+  <div class="card" id="card-imc-lt30">
+    <div class="section-head sh-naranja">IMC &lt; 30</div>
+    <div class="crit-block">
+      <div class="crit-badge badge-naranja">Fase estrés</div>
+      <div class="crit-desc">10 – 20 Kcal/kg</div>
+      <div class="crit-range">
+        <span class="r-val naranja-val" id="c-estres-min">—</span>
+        <span class="r-sep">–</span>
+        <span class="r-val naranja-val" id="c-estres-max">—</span>
+        <span class="r-unit">Kcal/día</span>
       </div>
-      <div class="crit-block">
-        <div class="crit-badge badge-verde">Fase estable</div>
-        <div class="crit-desc">25 – 30 Kcal/kg</div>
-        <div class="crit-range">
-          <span class="r-val verde-val" id="c-estable-min">—</span>
-          <span class="r-sep">–</span>
-          <span class="r-val verde-val" id="c-estable-max">—</span>
-          <span class="r-unit">Kcal/día</span>
-        </div>
+      <div class="neto-block" id="neto-estres-block">
+        <div class="neto-label">▸ Neto (descontando lípidos IV)</div>
+        <div class="neto-range"><span class="r-val" id="neto-estres-min">—</span><span class="r-sep">–</span><span class="r-val" id="neto-estres-max">—</span><span class="r-unit">Kcal/día</span></div>
       </div>
     </div>
-
-    <div class="card">
-      <div class="section-head sh-rojo">IMC ≥ 30 · Peso real siempre</div>
-      <div class="crit-block">
-        <div class="crit-badge badge-rojo">11 – 14 Kcal/kg</div>
-        <div class="crit-desc">Siempre sobre peso real, independientemente del peso elegido</div>
-        <div class="crit-range">
-          <span class="r-val rojo-val" id="c-alto-min">—</span>
-          <span class="r-sep">–</span>
-          <span class="r-val rojo-val" id="c-alto-max">—</span>
-          <span class="r-unit">Kcal/día</span>
-        </div>
+    <div class="crit-block">
+      <div class="crit-badge badge-verde">Fase estable</div>
+      <div class="crit-desc">25 – 30 Kcal/kg</div>
+      <div class="crit-range">
+        <span class="r-val verde-val" id="c-estable-min">—</span>
+        <span class="r-sep">–</span>
+        <span class="r-val verde-val" id="c-estable-max">—</span>
+        <span class="r-unit">Kcal/día</span>
       </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Proteínas y nitrógeno (crítico)</div>
-      <div class="results-grid">
-        <div class="rc rc-naranja">
-          <div class="rc-label">Proteínas</div>
-          <div class="rc-val" id="c-prot">—</div>
-          <div class="rc-unit">g/día</div>
-        </div>
-        <div class="rc rc-petrol">
-          <div class="rc-label">Nitrógeno</div>
-          <div class="rc-val" id="c-nit">—</div>
-          <div class="rc-unit">g N/día</div>
-        </div>
+      <div class="neto-block" id="neto-estable-block">
+        <div class="neto-label">▸ Neto (descontando lípidos IV)</div>
+        <div class="neto-range"><span class="r-val" id="neto-estable-min">—</span><span class="r-sep">–</span><span class="r-val" id="neto-estable-max">—</span><span class="r-unit">Kcal/día</span></div>
       </div>
     </div>
   </div>
 
-  <!-- ══ PANEL: RESUMEN ══ -->
-  <div class="panel" id="panel-resumen">
-    <div class="card">
-      <div class="card-title" style="background:var(--verde);color:white;padding:10px 16px;">Hospitalización</div>
-      <div class="resumen-row">
-        <span class="rr-label">GEB</span>
-        <span class="rr-val" id="s-geb" style="color:var(--petrol)">—</span>
-        <span class="rr-unit">Kcal/día</span>
+  <!-- IMC >= 30 -->
+  <div class="card" id="card-imc-ge30">
+    <div class="section-head sh-rojo">IMC ≥ 30 · Peso real siempre</div>
+    <div class="crit-block">
+      <div class="crit-badge badge-rojo">11 – 14 Kcal/kg</div>
+      <div class="crit-desc">Sobre peso real, independientemente del peso elegido</div>
+      <div class="crit-range">
+        <span class="r-val rojo-val" id="c-alto-min">—</span>
+        <span class="r-sep">–</span>
+        <span class="r-val rojo-val" id="c-alto-max">—</span>
+        <span class="r-unit">Kcal/día</span>
       </div>
-      <div class="resumen-row">
-        <span class="rr-label">GET (GEB × factor)</span>
-        <span class="rr-val" id="s-get" style="color:var(--verde)">—</span>
-        <span class="rr-unit">Kcal/día</span>
+      <div class="neto-block" id="neto-alto-block">
+        <div class="neto-label">▸ Neto (descontando lípidos IV)</div>
+        <div class="neto-range"><span class="r-val" id="neto-alto-min">—</span><span class="r-sep">–</span><span class="r-val" id="neto-alto-max">—</span><span class="r-unit">Kcal/día</span></div>
       </div>
-      <div class="resumen-row">
-        <span class="rr-label">Proteínas</span>
-        <span class="rr-val" id="s-prot-h" style="color:var(--naranja)">—</span>
-        <span class="rr-unit">g/día</span>
-      </div>
-      <div class="resumen-row">
-        <span class="rr-label">Nitrógeno</span>
-        <span class="rr-val" id="s-nit-h" style="color:var(--lila)">—</span>
-        <span class="rr-unit">g N/día</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="background:var(--naranja);color:white;padding:10px 16px;">Crítico · IMC &lt; 30</div>
-      <div class="resumen-row">
-        <span class="rr-label">Fase estrés</span>
-        <span class="rr-val" id="s-estres" style="color:var(--naranja)">—</span>
-        <span class="rr-unit">Kcal/día</span>
-      </div>
-      <div class="resumen-row">
-        <span class="rr-label">Fase estable</span>
-        <span class="rr-val" id="s-estable" style="color:var(--verde)">—</span>
-        <span class="rr-unit">Kcal/día</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="background:var(--rojo);color:white;padding:10px 16px;">Crítico · IMC ≥ 30</div>
-      <div class="resumen-row">
-        <span class="rr-label">Requerimientos (peso real)</span>
-        <span class="rr-val" id="s-alto" style="color:var(--rojo)">—</span>
-        <span class="rr-unit">Kcal/día</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Proteínas y nitrógeno</div>
-      <div class="resumen-row">
-        <span class="rr-label">Proteínas</span>
-        <span class="rr-val" id="s-prot-c" style="color:var(--naranja)">—</span>
-        <span class="rr-unit">g/día</span>
-      </div>
-      <div class="resumen-row">
-        <span class="rr-label">Nitrógeno</span>
-        <span class="rr-val" id="s-nit-c" style="color:var(--petrol)">—</span>
-        <span class="rr-unit">g N/día</span>
-      </div>
-      <div class="resumen-row" style="background:#F2F5F8;">
-        <span class="rr-label" style="color:var(--text2);font-size:13px;">Peso utilizado en cálculos</span>
-        <span class="rr-val" id="s-puso" style="color:var(--naranja);font-size:15px;">—</span>
-        <span class="rr-unit">kg</span>
-      </div>
-    </div>
-
-    <div class="footer-note">
-      Harris-Benedict (1919) · Devine (1974)<br>
-      Requerimientos crítico: ASPEN/ESPEN
     </div>
   </div>
+
+  <!-- Peso proteínas -->
+  <div class="card">
+    <div class="card-title">Peso para cálculo proteico</div>
+    <div class="peso-sel">
+      <div class="peso-sel-info">
+        <div class="peso-sel-label">Peso proteínas</div>
+        <div class="peso-sel-val" id="cp-puso-val">—</div>
+        <div class="peso-sel-tipo" id="cp-puso-tipo">—</div>
+      </div>
+      <button class="btn-cambiar" onclick="toggleOpts('cp')">Cambiar ▾</button>
+    </div>
+    <div class="peso-opts" id="opts-cp">
+      <div class="peso-opt active" data-p="cp" data-t="auto" onclick="setPeso('cp','auto')">Auto<small id="cp-o-auto">—</small></div>
+      <div class="peso-opt" data-p="cp" data-t="real" onclick="setPeso('cp','real')">Real<small id="cp-o-real">—</small></div>
+      <div class="peso-opt" data-p="cp" data-t="ideal" onclick="setPeso('cp','ideal')">Ideal<small id="cp-o-ideal">—</small></div>
+      <div class="peso-opt" data-p="cp" data-t="ajustado" onclick="setPeso('cp','ajustado')">Ajust.<small id="cp-o-ajust">—</small></div>
+    </div>
+  </div>
+
+  <!-- Proteínas crítico -->
+  <div class="card">
+    <div class="card-title">Proteínas y nitrógeno (crítico)</div>
+    <div class="results-grid">
+      <div class="rc rc-naranja"><div class="rc-label">Proteínas</div><div class="rc-val" id="c-prot">—</div><div class="rc-unit">g/día</div></div>
+      <div class="rc rc-petrol"><div class="rc-label">Nitrógeno</div><div class="rc-val" id="c-nit">—</div><div class="rc-unit">g N/día <span class="nit-factor" id="c-nit-f"></span></div></div>
+    </div>
+  </div>
+
+  <!-- Lípidos IV -->
+  <div class="card">
+    <div class="card-title" style="color:var(--rojo)">Lípidos IV no nutricionales</div>
+
+    <!-- PROPOFOL -->
+    <div class="drug-row">
+      <div class="drug-label">Propofol 2% (20 mg/mL)<small>Lipoven Fresenius · 1,1 kcal/mL</small></div>
+      <label class="toggle"><input type="checkbox" id="tog-propofol"><span class="toggle-slider"></span></label>
+    </div>
+    <div class="drug-detail" id="det-propofol">
+      <div class="drug-dose-row">
+        <label>Dosis</label>
+        <input type="number" id="dose-propofol" placeholder="—" min="0" max="4" step="0.1">
+        <span class="unit" style="color:var(--rojo)">mg/kg/h</span>
+      </div>
+      <div class="drug-dose-note">Si se deja vacío: dosis estándar estimada 1,5 mg/kg/h</div>
+      <div class="drug-mlh-row">
+        <label>Velocidad</label>
+        <span class="drug-mlh-val" id="prop-mlh">—</span>
+        <span class="unit" style="color:var(--rojo)">mL/h</span>
+      </div>
+      <!-- kcal propofol inline -->
+      <div class="drug-kcal-row">
+        <span class="drug-kcal-label" id="lipid-prop-label">—</span>
+        <span class="drug-kcal-val" id="lipid-prop-kcal">—</span>
+        <span class="drug-kcal-unit">Kcal/día</span>
+      </div>
+    </div>
+
+    <!-- CLEVIDIPINO -->
+    <div class="drug-row" style="border-top:1px solid var(--border)">
+      <div class="drug-label">Clevidipino (Cleviprex 0,5 mg/mL)<small>Emulsión lipídica · 2,0 kcal/mL</small></div>
+      <label class="toggle"><input type="checkbox" id="tog-clevi"><span class="toggle-slider"></span></label>
+    </div>
+    <div class="drug-detail" id="det-clevi">
+      <div class="drug-dose-row">
+        <label>Velocidad</label>
+        <input type="number" id="dose-clevi" placeholder="—" min="0" max="64" step="0.5">
+        <span class="unit" style="color:var(--rojo)">mL/h</span>
+      </div>
+      <div class="drug-dose-note">Si se deja vacío: dosis estándar estimada 8 mL/h</div>
+      <!-- kcal clevidipino inline -->
+      <div class="drug-kcal-row">
+        <span class="drug-kcal-label" id="lipid-clevi-label">—</span>
+        <span class="drug-kcal-val" id="lipid-clevi-kcal">—</span>
+        <span class="drug-kcal-unit">Kcal/día</span>
+      </div>
+    </div>
+
+    <!-- TOTAL — solo visible si alguno activado -->
+    <div class="lipid-total-block" id="lipid-result-block">
+      <div class="lipid-total-header">
+        <span class="lipid-total-title">Total lípidos IV</span>
+        <span class="lipid-total-big" id="lipid-total-kcal">—</span>
+        <span class="lipid-total-bigunit">Kcal/día</span>
+      </div>
+      <div class="lipid-total-detail">
+        <div class="lipid-detail-item" id="lipid-prop-item" style="display:none">
+          <span class="lipid-detail-dot" style="background:var(--rojo)"></span>
+          <span class="lipid-detail-label" id="lipid-prop-label2">—</span>
+          <span class="lipid-detail-val" id="lipid-prop-kcal2">—</span>
+          <span class="lipid-detail-unit">Kcal/día</span>
+        </div>
+        <div class="lipid-detail-item" id="lipid-clevi-item" style="display:none">
+          <span class="lipid-detail-dot" style="background:var(--naranja)"></span>
+          <span class="lipid-detail-label" id="lipid-clevi-label2">—</span>
+          <span class="lipid-detail-val" id="lipid-clevi-kcal2">—</span>
+          <span class="lipid-detail-unit">Kcal/día</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ RESUMEN ══ -->
+<div class="panel" id="panel-resumen">
+
+  <div class="card">
+    <div class="card-title" style="background:var(--verde);color:white;padding:10px 16px">Hospitalización</div>
+    <div class="resumen-row"><span class="rr-label" id="s-h-peso-label">Peso utilizado</span><span class="rr-val" id="s-h-puso" style="color:var(--naranja)">—</span><span class="rr-unit">kg</span></div>
+    <div class="resumen-row"><span class="rr-label">GEB</span><span class="rr-val" id="s-geb" style="color:var(--petrol)">—</span><span class="rr-unit">Kcal/día</span></div>
+    <div class="resumen-row"><span class="rr-label">GET (GEB × factor)</span><span class="rr-val" id="s-get" style="color:var(--verde)">—</span><span class="rr-unit">Kcal/día</span></div>
+    <div class="resumen-row"><span class="rr-label">Proteínas</span><span class="rr-val" id="s-prot-h" style="color:var(--naranja)">—</span><span class="rr-unit">g/día</span></div>
+    <div class="resumen-row"><span class="rr-label">Nitrógeno</span><span class="rr-val" id="s-nit-h" style="color:var(--lila)">—</span><span class="rr-unit">g N/día <span class="nit-factor" id="s-nit-h-f"></span></span></div>
+  </div>
+
+  <!-- Crítico calorías: una sola card que cambia según IMC -->
+  <div class="card" id="s-card-critico-cal">
+    <div id="s-critico-cal-header" style="background:var(--naranja);color:white;padding:10px 16px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em">Crítico · IMC &lt; 30</div>
+    <!-- Peso utilizado calorías -->
+    <div class="resumen-row">
+      <span class="rr-label" id="s-cc-peso-label">Peso calorías</span>
+      <span class="rr-val" id="s-cc-puso-display" style="color:var(--naranja)">—</span>
+      <span class="rr-unit" id="s-cc-puso-unit">kg</span>
+    </div>
+    <!-- IMC < 30: fase estrés + fase estable -->
+    <div id="s-critico-lt30-rows">
+      <div class="resumen-row"><span class="rr-label">Fase estrés · 10–20 Kcal/kg</span><span class="rr-val" id="s-estres" style="color:var(--naranja)">—</span><span class="rr-unit">Kcal/día</span></div>
+      <div class="resumen-row" id="s-neto-estres-row" style="display:none"><span class="rr-label" style="color:var(--rojo);font-size:13px">▸ Neto lípidos IV</span><span class="rr-val" id="s-neto-estres" style="color:var(--rojo)">—</span><span class="rr-unit" style="color:var(--rojo)">Kcal/día</span></div>
+      <div class="resumen-row"><span class="rr-label">Fase estable · 25–30 Kcal/kg</span><span class="rr-val" id="s-estable" style="color:var(--verde)">—</span><span class="rr-unit">Kcal/día</span></div>
+      <div class="resumen-row" id="s-neto-estable-row" style="display:none"><span class="rr-label" style="color:var(--rojo);font-size:13px">▸ Neto lípidos IV</span><span class="rr-val" id="s-neto-estable" style="color:var(--rojo)">—</span><span class="rr-unit" style="color:var(--rojo)">Kcal/día</span></div>
+    </div>
+    <!-- IMC >= 30: solo rango obesos -->
+    <div id="s-critico-ge30-rows" style="display:none">
+      <div class="resumen-row"><span class="rr-label">Requerimientos · 11–14 Kcal/kg</span><span class="rr-val" id="s-alto" style="color:var(--rojo)">—</span><span class="rr-unit">Kcal/día</span></div>
+      <div class="resumen-row" id="s-neto-alto-row" style="display:none"><span class="rr-label" style="color:var(--rojo);font-size:13px">▸ Neto lípidos IV</span><span class="rr-val" id="s-neto-alto" style="color:var(--rojo)">—</span><span class="rr-unit" style="color:var(--rojo)">Kcal/día</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Proteínas y nitrógeno (crítico)</div>
+    <div class="resumen-row"><span class="rr-label" id="s-cp-peso-label">Peso proteínas</span><span class="rr-val" id="s-cp-puso" style="color:var(--naranja)">—</span><span class="rr-unit">kg</span></div>
+    <div class="resumen-row"><span class="rr-label">Proteínas</span><span class="rr-val" id="s-prot-c" style="color:var(--naranja)">—</span><span class="rr-unit">g/día</span></div>
+    <div class="resumen-row"><span class="rr-label">Nitrógeno</span><span class="rr-val" id="s-nit-c" style="color:var(--petrol)">—</span><span class="rr-unit">g N/día <span class="nit-factor" id="s-nit-c-f"></span></span></div>
+  </div>
+
+  <div class="card" id="s-lipid-card" style="display:none">
+    <div class="card-title" style="color:var(--rojo)">Lípidos IV · Crítico</div>
+    <div class="resumen-row" id="s-lipid-prop-row" style="display:none"><span class="rr-label" id="s-lipid-prop-label">Propofol</span><span class="rr-val" id="s-lipid-prop-kcal" style="color:var(--rojo)">—</span><span class="rr-unit">Kcal/día</span></div>
+    <div class="resumen-row" id="s-lipid-clevi-row" style="display:none"><span class="rr-label" id="s-lipid-clevi-label">Clevidipino</span><span class="rr-val" id="s-lipid-clevi-kcal" style="color:var(--rojo)">—</span><span class="rr-unit">Kcal/día</span></div>
+    <div class="resumen-row" style="background:var(--rojo-l)"><span class="rr-label" style="color:var(--rojo);font-weight:600">Total lípidos IV</span><span class="rr-val" id="s-lipid-total" style="color:var(--rojo);font-size:19px">—</span><span class="rr-unit" style="color:var(--rojo);font-weight:600">Kcal/día</span></div>
+  </div>
+
+  <div class="footer-note">Harris-Benedict (1919) · Devine (1974) · ASPEN/ESPEN<br>Propofol 2%: 1,1 kcal/mL · Clevidipino: 2,0 kcal/mL</div>
+</div>
 
 </main>
 
 <script>
-let pesoTipo = 'real';
-let vals = { imc: null, pideal: null, pajust: null, puso: null, geb: null, get_: null, prot: null, nit: null };
+// ── ESTADO ──
+const ov = { h:'auto', cc:'auto', cp:'auto' };
+const optsOpen = { h:false, cc:false, cp:false };
 
-function n(id) { return parseFloat(document.getElementById(id).value) || 0; }
+// ── HELPERS ──
+function n(id)    { return parseFloat(document.getElementById(id).value)||0; }
+function nOpt(id) { const v=document.getElementById(id).value; return v===''?null:parseFloat(v); }
+function T(id,t)  { const e=document.getElementById(id); if(e) e.textContent=t; }
+function S(id,v)  { const e=document.getElementById(id); if(e) e.style.display=v?'':'none'; }
+function CL(id,c,on){ const e=document.getElementById(id); if(e){ if(on) e.classList.add(c); else e.classList.remove(c); }}
 
-function fmt(v, dec=0) { return (v == null || isNaN(v) || v <= 0) ? '—' : v.toFixed(dec); }
-function set(id, v, dec=0) { const el=document.getElementById(id); if(el) el.textContent = fmt(v, dec); }
+function fp(f) { return f>0?'(f.p. '+f.toFixed(2)+')':''; }
 
-function calc() {
-  const peso = n('peso'), talla = n('talla'), edad = n('edad');
-  const sexo = document.getElementById('sexo').value;
-  const fCal = n('fCal'), fProt = n('fProt');
-
-  const imc = (peso>0 && talla>0) ? peso/((talla/100)**2) : null;
-  const pideal = talla>0 ? (sexo==='H' ? 50+0.91*(talla-152.4) : 45.5+0.91*(talla-152.4)) : null;
-  const pajust = (peso>0 && pideal!=null) ? pideal+0.4*(peso-pideal) : null;
-
-  set('d-imc', imc, 1);
-  set('d-pideal', pideal, 1);
-  set('d-pajust', pajust, 1);
-
-  document.getElementById('pill-real').textContent = peso>0 ? peso.toFixed(1)+' kg' : '—';
-  document.getElementById('pill-ideal').textContent = pideal!=null ? pideal.toFixed(1)+' kg' : '—';
-  document.getElementById('pill-ajust').textContent = pajust!=null ? pajust.toFixed(1)+' kg' : '—';
-
-  document.getElementById('hdr-imc').textContent = imc!=null ? 'IMC '+imc.toFixed(1) : 'IMC —';
-
-  let puso = null;
-  if (pesoTipo==='real' && peso>0) puso = peso;
-  else if (pesoTipo==='ideal' && pideal!=null) puso = pideal;
-  else if (pesoTipo==='ajustado' && pajust!=null) puso = pajust;
-
-  set('d-puso', puso, 1);
-
-  const geb = (puso && talla>0 && edad>0)
-    ? (sexo==='H'
-      ? 88.36+13.4*puso+4.8*talla-5.68*edad
-      : 447.6+9.25*puso+3.1*talla-4.33*edad)
-    : null;
-  const get_ = geb ? geb*fCal : null;
-  const prot = puso ? puso*fProt : null;
-  const nit  = puso ? puso*fProt/6.25 : null;
-
-  // Hosp
-  set('r-geb', geb, 0); set('r-get', get_, 0);
-  set('r-prot-h', prot, 1); set('r-nit-h', nit, 2);
-
-  // Crítico
-  const imcOk = imc != null;
-  if (imcOk && imc<30 && puso) {
-    set('c-estres-min', 10*puso, 0); set('c-estres-max', 20*puso, 0);
-    set('c-estable-min', 25*puso, 0); set('c-estable-max', 30*puso, 0);
-    ['c-alto-min','c-alto-max'].forEach(id => document.getElementById(id).textContent='—');
-  } else if (imcOk && imc>=30 && peso>0) {
-    ['c-estres-min','c-estres-max','c-estable-min','c-estable-max'].forEach(id => document.getElementById(id).textContent='—');
-    set('c-alto-min', 11*peso, 0); set('c-alto-max', 14*peso, 0);
-  } else {
-    ['c-estres-min','c-estres-max','c-estable-min','c-estable-max','c-alto-min','c-alto-max'].forEach(id => document.getElementById(id).textContent='—');
-  }
-  set('c-prot', prot, 1); set('c-nit', nit, 2);
-
-  // Resumen
-  set('s-geb', geb, 0); set('s-get', get_, 0);
-  set('s-prot-h', prot, 1); set('s-nit-h', nit, 2);
-  set('s-prot-c', prot, 1); set('s-nit-c', nit, 2);
-  set('s-puso', puso, 1);
-
-  if (imcOk && imc<30 && puso) {
-    document.getElementById('s-estres').textContent = (10*puso).toFixed(0)+'–'+(20*puso).toFixed(0);
-    document.getElementById('s-estable').textContent = (25*puso).toFixed(0)+'–'+(30*puso).toFixed(0);
-    document.getElementById('s-alto').textContent = '—';
-  } else if (imcOk && imc>=30 && peso>0) {
-    document.getElementById('s-estres').textContent = '—';
-    document.getElementById('s-estable').textContent = '—';
-    document.getElementById('s-alto').textContent = (11*peso).toFixed(0)+'–'+(14*peso).toFixed(0);
-  } else {
-    ['s-estres','s-estable','s-alto'].forEach(id => document.getElementById(id).textContent='—');
-  }
+// ── PESO AUTO POR IMC ──
+function autoP(imc, peso, pideal, pajust, tipo) {
+  if (!peso||!imc) return {val:null,lab:'—'};
+  if (imc<20)  return {val:pideal, lab:'Ideal'};
+  if (imc<25)  return {val:peso,   lab:'Real'};
+  if (imc<30)  return {val:pajust, lab:'Ajustado'};
+  // >=30
+  if (tipo==='cc') return {val:peso,   lab:'Real'};
+  if (tipo==='cp') return {val:pideal, lab:'Ideal'};
+  return {val:pajust, lab:'Ajustado'};
 }
 
-// Tabs
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('panel-'+tab.dataset.panel).classList.add('active');
+function resolveP(panel, imc, peso, pideal, pajust) {
+  const o=ov[panel];
+  if (!o||o==='auto') return autoP(imc,peso,pideal,pajust,panel);
+  if (o==='real')     return {val:peso>0?peso:null,       lab:'Real'};
+  if (o==='ideal')    return {val:pideal!=null?pideal:null,lab:'Ideal'};
+  if (o==='ajustado') return {val:pajust!=null?pajust:null,lab:'Ajustado'};
+  return autoP(imc,peso,pideal,pajust,panel);
+}
+
+// ── SELECTOR ──
+function toggleOpts(p) {
+  optsOpen[p]=!optsOpen[p];
+  CL('opts-'+p,'open',optsOpen[p]);
+}
+function setPeso(p,t) {
+  ov[p]=t;
+  optsOpen[p]=false;
+  CL('opts-'+p,'open',false);
+  document.querySelectorAll('[data-p="'+p+'"]').forEach(e=>e.classList.toggle('active',e.dataset.t===t));
+  calc();
+}
+
+function refreshOpts(p, peso, pideal, pajust) {
+  T(p+'-o-auto',  peso>0?'(según IMC)':'—');
+  T(p+'-o-real',  peso>0?peso.toFixed(1)+' kg':'—');
+  T(p+'-o-ideal', pideal!=null?pideal.toFixed(1)+' kg':'—');
+  T(p+'-o-ajust', pajust!=null?pajust.toFixed(1)+' kg':'—');
+  document.querySelectorAll('[data-p="'+p+'"]').forEach(e=>e.classList.toggle('active',e.dataset.t===(ov[p]||'auto')));
+}
+function refreshSel(p, rVal, rLab) {
+  T(p+'-puso-val',  rVal!=null?rVal.toFixed(1)+' kg':'—');
+  T(p+'-puso-tipo', (ov[p]==='auto'||!ov[p])?('Auto · '+rLab):rLab);
+}
+
+// ── LÍPIDOS ──
+function calcLip(peso) {
+  const pOn=document.getElementById('tog-propofol').checked;
+  const cOn=document.getElementById('tog-clevi').checked;
+  let kP=0,kC=0;
+
+  if (pOn&&peso>0) {
+    const d=nOpt('dose-propofol'); const dose=d!==null?d:1.5; const est=d===null;
+    const mlh=(dose*peso)/20; kP=mlh*24*1.1;
+    T('prop-mlh',mlh.toFixed(1));
+    const lbl=(est?'Aporte estimado (1,5 mg/kg/h)':'Aporte ('+dose.toFixed(1)+' mg/kg/h)');
+    const lbl2='Propofol 2%'+(est?' (est. 1,5 mg/kg/h)':' ('+dose.toFixed(1)+' mg/kg/h)');
+    // inline dentro del bloque propofol
+    T('lipid-prop-label', lbl);
+    T('lipid-prop-kcal',  Math.round(kP).toString());
+    // desglose en el total
+    T('lipid-prop-label2', lbl2);
+    T('lipid-prop-kcal2',  Math.round(kP).toString());
+    // resumen
+    T('s-lipid-prop-label', lbl2);
+    T('s-lipid-prop-kcal',  Math.round(kP).toString());
+  }
+  if (cOn) {
+    const d=nOpt('dose-clevi'); const dose=d!==null?d:8; const est=d===null;
+    kC=dose*24*2.0;
+    const lbl=(est?'Aporte estimado (8 mL/h)':'Aporte ('+dose.toFixed(1)+' mL/h)');
+    const lbl2='Clevidipino'+(est?' (est. 8 mL/h)':' ('+dose.toFixed(1)+' mL/h)');
+    T('lipid-clevi-label', lbl);
+    T('lipid-clevi-kcal',  Math.round(kC).toString());
+    T('lipid-clevi-label2',lbl2);
+    T('lipid-clevi-kcal2', Math.round(kC).toString());
+    T('s-lipid-clevi-label',lbl2);
+    T('s-lipid-clevi-kcal', Math.round(kC).toString());
+  }
+
+  const tot=kP+kC; const any=pOn||cOn;
+  CL('lipid-result-block','open',any);
+  S('lipid-prop-item',pOn);
+  S('lipid-clevi-item',cOn);
+  if(any) T('lipid-total-kcal',Math.round(tot).toString());
+  S('s-lipid-card',any);
+  S('s-lipid-prop-row',pOn);
+  S('s-lipid-clevi-row',cOn);
+  if(any) T('s-lipid-total',Math.round(tot).toString());
+  return {tot,any};
+}
+
+function neto(blockId,minId,maxId,rMin,rMax,lip,vis) {
+  const b=document.getElementById(blockId); if(!b) return;
+  if(vis&&rMin>0&&rMax>0){
+    T(minId,Math.round(Math.max(0,rMin-lip)).toString());
+    T(maxId,Math.round(Math.max(0,rMax-lip)).toString());
+    b.classList.add('open');
+  } else { b.classList.remove('open'); }
+}
+
+// ── CÁLCULO ──
+function calc() {
+  const peso=n('peso'),talla=n('talla'),edad=n('edad');
+  const sexo=document.getElementById('sexo').value;
+  const fCal=n('fCal'),fProt=n('fProt');
+
+  const imc    = (peso>0&&talla>0)?peso/((talla/100)**2):null;
+  const pideal = talla>0?(sexo==='H'?50+0.91*(talla-152.4):45.5+0.91*(talla-152.4)):null;
+  const pajust = (peso>0&&pideal!=null)?pideal+0.4*(peso-pideal):null;
+
+  T('d-imc',    imc!=null?imc.toFixed(1):'—');
+  T('d-pideal', pideal!=null?pideal.toFixed(1):'—');
+  T('d-pajust', pajust!=null?pajust.toFixed(1):'—');
+  T('hdr-imc',  imc!=null?'IMC '+imc.toFixed(1):'IMC —');
+
+  // Refrescar opciones
+  refreshOpts('h',  peso,pideal,pajust);
+  refreshOpts('cc', peso,pideal,pajust);
+  refreshOpts('cp', peso,pideal,pajust);
+
+  // Resolver pesos
+  const rH =resolveP('h', imc,peso,pideal,pajust);
+  const rCC=resolveP('cc',imc,peso,pideal,pajust);
+  const rCP=resolveP('cp',imc,peso,pideal,pajust);
+
+  refreshSel('h', rH.val,  rH.lab);
+  refreshSel('cc',rCC.val, rCC.lab);
+  refreshSel('cp',rCP.val, rCP.lab);
+
+  const pH=rH.val, pCC=rCC.val, pCP=rCP.val;
+
+  // Hosp
+  const geb=(pH&&talla>0&&edad>0)?(sexo==='H'?88.36+13.4*pH+4.8*talla-5.68*edad:447.6+9.25*pH+3.1*talla-4.33*edad):null;
+  const get_=geb?geb*fCal:null;
+  const protH=pH?pH*fProt:null;
+  const nitH =pH?pH*fProt/6.25:null;
+  const fpL=fp(fProt);
+
+  T('r-geb',   geb?Math.round(geb).toString():'—');
+  T('r-get',   get_?Math.round(get_).toString():'—');
+  T('r-prot-h',protH?protH.toFixed(1):'—');
+  T('r-nit-h', nitH?nitH.toFixed(2):'—');
+  T('r-nit-h-f',nitH?fpL:'');
+  T('s-h-puso',pH?pH.toFixed(1):'—');
+  T('s-geb',   geb?Math.round(geb).toString():'—');
+  T('s-get',   get_?Math.round(get_).toString():'—');
+  T('s-prot-h',protH?protH.toFixed(1):'—');
+  T('s-nit-h', nitH?nitH.toFixed(2):'—');
+  T('s-nit-h-f',nitH?fpL:'');
+
+  // Lípidos
+  const {tot:lip,any}=calcLip(peso);
+
+  // Crítico calorías
+  const imcOk=imc!=null;
+  let eStrMin=0,eStrMax=0,eStMin=0,eStMax=0,altMin=0,altMax=0;
+
+  if (imcOk&&imc<30&&pCC) {
+    eStrMin=10*pCC; eStrMax=20*pCC; eStMin=25*pCC; eStMax=30*pCC;
+    T('c-estres-min',Math.round(eStrMin).toString()); T('c-estres-max',Math.round(eStrMax).toString());
+    T('c-estable-min',Math.round(eStMin).toString()); T('c-estable-max',Math.round(eStMax).toString());
+    T('c-alto-min','—'); T('c-alto-max','—');
+    T('s-estres',Math.round(eStrMin)+'–'+Math.round(eStrMax));
+    T('s-estable',Math.round(eStMin)+'–'+Math.round(eStMax));
+    T('s-alto','—');
+    // Resumen: card única IMC<30
+    const pesoTipoLab = rCC.lab;
+    document.getElementById('s-critico-cal-header').textContent='Crítico · IMC < 30';
+    document.getElementById('s-critico-cal-header').style.background='var(--naranja)';
+    T('s-cc-peso-label','Peso calorías · '+pesoTipoLab);
+    T('s-cc-puso-display', pCC.toFixed(1));
+    document.getElementById('s-cc-puso-display').style.color='var(--naranja)';
+    document.getElementById('s-cc-puso-unit').style.color='';
+    S('s-critico-lt30-rows',true); S('s-critico-ge30-rows',false);
+    // mostrar IMC<30, ocultar IMC>=30, mostrar selector peso cal
+    S('card-imc-lt30',true); S('card-imc-ge30',false); S('card-peso-cal',true);
+  } else if (imcOk&&imc>=30&&peso>0) {
+    altMin=11*peso; altMax=14*peso;
+    T('c-estres-min','—'); T('c-estres-max','—');
+    T('c-estable-min','—'); T('c-estable-max','—');
+    T('c-alto-min',Math.round(altMin).toString()); T('c-alto-max',Math.round(altMax).toString());
+    T('s-estres','—'); T('s-estable','—');
+    T('s-alto',Math.round(altMin)+'–'+Math.round(altMax));
+    // Resumen: card única IMC>=30
+    document.getElementById('s-critico-cal-header').textContent='Crítico · IMC ≥ 30';
+    document.getElementById('s-critico-cal-header').style.background='var(--rojo)';
+    T('s-cc-peso-label','Peso calorías · Real');
+    T('s-cc-puso-display', peso.toFixed(1));
+    document.getElementById('s-cc-puso-display').style.color='var(--rojo)';
+    document.getElementById('s-cc-puso-unit').style.color='var(--rojo)';
+    S('s-critico-lt30-rows',false); S('s-critico-ge30-rows',true);
+    // ocultar IMC<30, mostrar IMC>=30, ocultar selector peso cal
+    S('card-imc-lt30',false); S('card-imc-ge30',true); S('card-peso-cal',false);
+  } else {
+    ['c-estres-min','c-estres-max','c-estable-min','c-estable-max','c-alto-min','c-alto-max'].forEach(id=>T(id,'—'));
+    T('s-estres','—'); T('s-estable','—'); T('s-alto','—');
+    document.getElementById('s-critico-cal-header').textContent='Crítico';
+    document.getElementById('s-critico-cal-header').style.background='var(--text2)';
+    T('s-cc-peso-label','Peso calorías');
+    T('s-cc-puso-display','—');
+    document.getElementById('s-cc-puso-display').style.color='var(--naranja)';
+    document.getElementById('s-cc-puso-unit').style.color='';
+    S('s-critico-lt30-rows',true); S('s-critico-ge30-rows',false);
+    // sin IMC: mostrar ambas, mostrar selector
+    S('card-imc-lt30',true); S('card-imc-ge30',true); S('card-peso-cal',true);
+  }
+
+  const showLt30=imcOk&&imc<30&&pCC;
+  const showGe30=imcOk&&imc>=30&&peso>0;
+
+  neto('neto-estres-block', 'neto-estres-min','neto-estres-max', eStrMin,eStrMax,lip, any&&showLt30);
+  neto('neto-estable-block','neto-estable-min','neto-estable-max',eStMin,eStMax,lip,  any&&showLt30);
+  neto('neto-alto-block',   'neto-alto-min',  'neto-alto-max',   altMin,altMax,lip,  any&&showGe30);
+
+  S('s-neto-estres-row',any&&showLt30);
+  S('s-neto-estable-row',any&&showLt30);
+  S('s-neto-alto-row',any&&showGe30);
+  if(any&&showLt30){
+    T('s-neto-estres', Math.round(Math.max(0,eStrMin-lip))+'–'+Math.round(Math.max(0,eStrMax-lip)));
+    T('s-neto-estable',Math.round(Math.max(0,eStMin-lip)) +'–'+Math.round(Math.max(0,eStMax-lip)));
+  }
+  if(any&&showGe30){
+    T('s-neto-alto',Math.round(Math.max(0,altMin-lip))+'–'+Math.round(Math.max(0,altMax-lip)));
+  }
+
+  // Crítico proteínas
+  const protC=pCP?pCP*fProt:null;
+  const nitC =pCP?pCP*fProt/6.25:null;
+  T('c-prot',protC?protC.toFixed(1):'—');
+  T('c-nit', nitC?nitC.toFixed(2):'—');
+  T('c-nit-f',nitC?fpL:'');
+  T('s-cp-peso-label','Peso proteínas · '+rCP.lab);
+  T('s-cp-puso',pCP?pCP.toFixed(1):'—');
+  T('s-prot-c',protC?protC.toFixed(1):'—');
+  T('s-nit-c', nitC?nitC.toFixed(2):'—');
+  T('s-nit-c-f',nitC?fpL:'');
+  T('s-h-peso-label','Peso utilizado · '+rH.lab);
+  T('s-h-puso', pH?pH.toFixed(1):'—');
+}
+
+// ── EVENTOS ──
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-'+t.dataset.panel).classList.add('active');
   });
 });
 
-// Pills
-document.querySelectorAll('.pill').forEach(pill => {
-  pill.addEventListener('click', () => {
-    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    pesoTipo = pill.dataset.tipo;
-    calc();
-  });
+document.getElementById('tog-propofol').addEventListener('change',function(){
+  CL('det-propofol','open',this.checked);
+  if(!this.checked){document.getElementById('dose-propofol').value='';T('prop-mlh','—');}
+  calc();
+});
+document.getElementById('tog-clevi').addEventListener('change',function(){
+  CL('det-clevi','open',this.checked);
+  if(!this.checked) document.getElementById('dose-clevi').value='';
+  calc();
 });
 
-// Inputs
-['peso','talla','edad','fCal','fProt'].forEach(id => {
-  document.getElementById(id).addEventListener('input', calc);
+['peso','talla','edad','fCal','fProt','dose-propofol','dose-clevi'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',calc);
 });
-document.getElementById('sexo').addEventListener('change', calc);
+document.getElementById('sexo').addEventListener('change',calc);
 
 calc();
 </script>
